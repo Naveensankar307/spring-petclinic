@@ -3,7 +3,10 @@
 #Also, we should not use the / directory to store application files.
 #So first create a user by using adduser command and then switch to that user using USER command.
 
-FROM eclipse-temurin:17-jdk
+# eclipse-temurin:17-jre-alpine is a lightweight image for Java 17 runtime environment. 
+#JRE is sufficient to run Java applications and it is smaller in size compared to JDK images.
+
+FROM eclipse-temurin:17-jre-alpine 
 
 LABEL author="Naveen"
 LABEL project="Learning"
