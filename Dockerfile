@@ -1,10 +1,9 @@
-#For java applications, we cannot run the application as root user and not under the / directory.
-#We need to create a non-root user and run the application under that user.
-#Also, we should not use the / directory to store application files.
-#So first create a user by using adduser command and then switch to that user using USER command.
-
-# eclipse-temurin:17-jre-alpine is a lightweight image for Java 17 runtime environment. 
-#JRE is sufficient to run Java applications and it is smaller in size compared to JDK images.
+FROM maven:3.9-eclipse-temurin-17 AS build
+LABEL author="Naveen"
+LABEL project="Learning"
+ADD . ./app
+WORKDIR /app
+RUN mvn package 
 
 FROM eclipse-temurin:17-jre-alpine 
 
@@ -17,7 +16,7 @@ USER spc
 
 WORKDIR /usr/share/spc
 
-ADD target/spring-petclinic-4.0.0-SNAPSHOT.jar spring-petclinic-4.0.0-SNAPSHOT.jar
+COPY --from=build  /app/target/spring-petclinic-4.0.0-SNAPSHOT.jar spring-petclinic-4.0.0-SNAPSHOT.jar
 
 EXPOSE 8080/tcp
 
